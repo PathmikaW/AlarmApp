@@ -1,4 +1,4 @@
-package com.alarmapp
+package com.alarmappt
 
 import android.app.Application
 import com.facebook.react.PackageList

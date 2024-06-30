@@ -1,3 +1,11 @@
+Make sure the .wav file is included in the app bundle:
+
+Open your project in Xcode.
+Drag and drop the .wav file into the project navigator.
+Ensure the file is added to the target.
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
