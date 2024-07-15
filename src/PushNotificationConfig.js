@@ -27,9 +27,37 @@ async function createNotificationChannel() {
 
 createNotificationChannel();
 
-// Configure push notifications
+// Configure foreground push notifications
 notifee.onForegroundEvent(async ({type, detail}) => {
   console.log('onForegroundEvent:', type, detail);
+  if (type === EventType.ACTION_PRESS) {
+    const {pressAction} = detail;
+
+    if (pressAction.id === 'snooze') {
+      console.log('Snooze button pressed');
+      handleSnooze();
+    } else if (pressAction.id === 'dismiss') {
+      console.log('Dismiss button pressed');
+      handleDismiss();
+    }
+
+    if (
+      !alarmTriggered &&
+      detail.notification &&
+      detail.notification.pressAction
+    ) {
+      console.log('Alarm triggered');
+      alarmTriggered = true;
+      if (setAlarmTriggered) {
+        setAlarmTriggered(true);
+      }
+    }
+  }
+});
+
+// Configure background push notifications
+notifee.onBackgroundEvent(async ({type, detail}) => {
+  console.log('onBackgroundEvent:', type, detail);
   if (type === EventType.ACTION_PRESS) {
     const {pressAction} = detail;
 
