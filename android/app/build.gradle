@@ -91,10 +91,12 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('your-release-key.keystore')
-            storePassword 'your-key-store-password'
-            keyAlias 'your-key-alias'
-            keyPassword 'your-key-password'
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(project.property('MYAPP_UPLOAD_STORE_FILE'))
+                storePassword project.property('MYAPP_UPLOAD_STORE_PASSWORD')
+                keyAlias project.property('MYAPP_UPLOAD_KEY_ALIAS')
+                keyPassword project.property('MYAPP_UPLOAD_KEY_PASSWORD')
+            }
         }
     }
     buildTypes {
@@ -104,10 +106,11 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
