@@ -1,4 +1,4 @@
-package com.alarmappt
+package com.alarmapp2
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

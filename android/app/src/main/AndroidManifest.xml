@@ -1,10 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.alarmappt">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.alarmapp2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MainApplication"
@@ -27,16 +29,9 @@
             </intent-filter>
         </activity>
 
+        <!-- Ensure Notifee Boot Receiver is added for handling boot events -->
         <receiver
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions"
-            android:exported="true">
-        </receiver>
-        <receiver
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"
-            android:exported="true">
-        </receiver>
-        <receiver
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver"
+            android:name="io.invertase.notifee.receivers.NotifeeBootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -44,5 +39,28 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
+
+        <!-- Background Fetch configuration -->
+        <service
+            android:name="com.transistorsoft.tsbackgroundfetch.FetchJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.transistorsoft.tsbackgroundfetch.FetchJobService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.transistorsoft.tsbackgroundfetch.FetchAlarmReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
